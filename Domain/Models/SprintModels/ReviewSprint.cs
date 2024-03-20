@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.SprintModels.FinishStrategy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Domain.Models.SprintModels
     {
         public ReviewSprint(string name, DateTime startDate, DateTime endDate) : base(name, startDate, endDate)
         {
+            _finishStrategy = new ReviewFinishStrategy();
         }
     }
 }

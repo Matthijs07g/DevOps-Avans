@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.BacklogModels
 {
-    public class BacklogActivity
+    public class BacklogActivity : BacklogItem
     {
+        public BacklogActivity(string title) : base(title)
+        {
+        }
     }
 }

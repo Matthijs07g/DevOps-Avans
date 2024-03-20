@@ -17,14 +17,18 @@ namespace Domain.Models.BacklogModels
         private Developer? _developer;
         public Developer? Developer { get => _developer; set => _developer = value; }
 
+        private List<BacklogItem>? _activities;
+        public List<BacklogItem>? Activities { get => _activities; set => _activities = value; }
+
         private IBacklogState _currentState = new TodoState();
+        public IBacklogState CurrentState { get => _currentState; set => setState(value); }
 
         public BacklogItem(string title)
         {
             _title = title;
         }
 
-        public void SetState(IBacklogState state)
+        private void setState(IBacklogState state)
         {
             if (_currentState is ReadyForTestingState || _currentState is TestingState) {
 
@@ -34,8 +38,15 @@ namespace Domain.Models.BacklogModels
                     // notify scrum master so he can ask the developer why he put an unfinished task at ready for testing
                 }
             }
+
+            if (state is DoneState && !canBeDone()) return;
             
             _currentState = state;
+        }
+
+        private bool canBeDone()
+        {
+            return _activities == null ? true : _activities.Exists(activity => activity.CurrentState is not DoneState);
         }
     }
 }

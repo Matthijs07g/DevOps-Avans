@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models.Account;
 using Domain.Models.BacklogModels;
+using Domain.Models.SprintModels.FinishStrategy;
 using Domain.Models.SprintModels.SprintStates;
 
 namespace Domain.Models.SprintModels
@@ -21,12 +22,13 @@ namespace Domain.Models.SprintModels
         public DateTime EndDate { get => _endDate; set => _currentState.setEndDate(this, value); }
 
         internal List<BacklogItem> _backlog;
-        public List<BacklogItem> Backlog { get => _backlog; set => _currentState.addBacklogItem(this, value); }
+        public List<BacklogItem> Backlog { get => _backlog; set => _backlog = value; }
 
         private List<AbstractUser> _team;
         public List<AbstractUser> Team { get => _team; set => _team = value; }
 
-        private ISprintState _currentState;
+        protected ISprintState _currentState;
+        protected IFinishStrategy _finishStrategy;
 
         public Sprint(string name, DateTime startDate, DateTime endDate)
         {
@@ -43,9 +45,14 @@ namespace Domain.Models.SprintModels
             _currentState = new InProgressState();
         }
 
-        public void Finish()
-        {
+        public void Finish() {
             _currentState = new FinishedState();
+            _finishStrategy.Finish(this);
+        }
+
+        public void AddBacklogItem(BacklogItem value)
+        {
+            _currentState.addBacklogItem(this, value);
         }
     }
 }
