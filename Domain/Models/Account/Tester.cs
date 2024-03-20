@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.BacklogModels
+namespace Domain.Models.Account
 {
-    public class ProductBacklogItem : BacklogItem
+    public class Tester : AbstractUser
     {
     }
 }

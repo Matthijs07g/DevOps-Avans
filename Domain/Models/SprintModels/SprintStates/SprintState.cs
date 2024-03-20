@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.BacklogModels
+namespace Domain.Models.SprintModels.SprintStates
 {
-    public class BacklogActivity
+    public enum SprintState
     {
+        NotStarted,
+        InProgress,
+        Finished
     }
 }

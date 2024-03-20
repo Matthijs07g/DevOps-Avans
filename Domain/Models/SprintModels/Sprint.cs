@@ -3,75 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models.Account;
 using Domain.Models.BacklogModels;
+using Domain.Models.SprintModels.SprintStates;
 
 namespace Domain.Models.SprintModels
 {
-    public class Sprint
+    public abstract class Sprint
     {
-        private Backlog _backlog;
-        public Backlog Backlog 
-        { 
-            get => _backlog;
-            set
-            {
-                if (!isSprintStarted())
-                {
-                    _backlog = value;
-                }
-            }
-        }
+        internal string _name;
+        public string Name { get => _name; set => _currentState.setName(this, value); }
 
-        private string _name;
-        public string Name 
-        {
-            get => _name;
-            set
-            {
-                if(!isSprintStarted())
-                {
-                    _name = value;
-                }
-            }
-        }
+        internal DateTime _startDate;
+        public DateTime StartDate { get => _startDate; set => _currentState.setStartDate(this, value); }
 
-        private DateTime _startDate;
-        public DateTime StartDate 
-        {
-            get => _startDate;
-            set
-            {
-                if (!isSprintStarted())
-                {
-                    _startDate = value;
-                }
-            }
-        }
+        internal DateTime _endDate;
+        public DateTime EndDate { get => _endDate; set => _currentState.setEndDate(this, value); }
 
-        private DateTime _endDate;
-        public DateTime EndDate 
-        {
-            get => _endDate;
-            set
-            {
-                if (!isSprintStarted())
-                {
-                    _endDate = value;
-                }
-            }
-        }
-        
+        private List<BacklogItem> _backlog;
+        public List<BacklogItem> Backlog { get => _backlog; set => _backlog = value; }
+
+        private List<AbstractUser> _team;
+        public List<AbstractUser> Team { get => _team; set => _team = value; }
+
+        private ISprintState _currentState;
+
         public Sprint(string name, DateTime startDate, DateTime endDate)
         {
-            _backlog = new Backlog();
+            _backlog = new List<BacklogItem>();
             _name = name;
             _startDate = startDate;
             _endDate = endDate;
+            _team = new List<AbstractUser>();
+            _currentState = new NotStartedState();
         }
-        
-        private bool isSprintStarted()
+
+        public void Start()
         {
-            return DateTime.Compare(_startDate, DateTime.UtcNow) <= 0;
+            _currentState = new InProgressState();
+        }
+
+        public void Finish()
+        {
+            _currentState = new FinishedState();
         }
     }
 }
