@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.BacklogModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Domain.Models.SprintModels.SprintStates
         void setName(Sprint sprint, string name);
         void setStartDate(Sprint sprint, DateTime startDate);
         void setEndDate(Sprint sprint, DateTime endDate);
+        void addBacklogItem(Sprint sprint, BacklogItem value);
     }
 }

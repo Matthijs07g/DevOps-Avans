@@ -20,8 +20,8 @@ namespace Domain.Models.SprintModels
         internal DateTime _endDate;
         public DateTime EndDate { get => _endDate; set => _currentState.setEndDate(this, value); }
 
-        private List<BacklogItem> _backlog;
-        public List<BacklogItem> Backlog { get => _backlog; set => _backlog = value; }
+        internal List<BacklogItem> _backlog;
+        public List<BacklogItem> Backlog { get => _backlog; set => _currentState.addBacklogItem(this, value); }
 
         private List<AbstractUser> _team;
         public List<AbstractUser> Team { get => _team; set => _team = value; }

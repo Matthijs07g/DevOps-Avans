@@ -8,5 +8,9 @@ namespace Domain.Models.Account
 {
     public class Developer : AbstractUser
     {
+        public Developer(string name)
+        {
+            _name = name;
+        }
     }
 }

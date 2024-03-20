@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.BacklogModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,11 @@ namespace Domain.Models.SprintModels.SprintStates
         public void setEndDate(Sprint sprint, DateTime endDate)
         {
             throw new InvalidOperationException("Cannot change end date of sprint in progress");
+        }
+
+        public void addBacklogItem(Sprint sprint, BacklogItem value)
+        {
+            throw new InvalidOperationException("Cannot add backlog item to sprint in progress");
         }
     }
 }

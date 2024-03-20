@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.SprintModels.SprintStates
+namespace Domain.Models.BacklogModels.BacklogStates
 {
-    public enum SprintState
+    public class TestingState : IBacklogState
     {
-        NotStarted,
-        InProgress,
-        Finished
     }
 }

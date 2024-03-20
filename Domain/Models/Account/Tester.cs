@@ -8,5 +8,9 @@ namespace Domain.Models.Account
 {
     public class Tester : AbstractUser
     {
+        public Tester(string name)
+        {
+            _name = name;
+        }
     }
 }

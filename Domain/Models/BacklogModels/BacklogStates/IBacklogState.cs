@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Account
+namespace Domain.Models.BacklogModels.BacklogStates
 {
-    public abstract class AbstractUser
+    public interface IBacklogState
     {
-        protected string _name;
     }
 }
