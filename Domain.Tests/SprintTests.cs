@@ -53,7 +53,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ScrumMasterShouldBeNotifiedWhenDevelopmentPipelineFails()
+        public void ScrumMasterShouldBeNotifiedWhenPipelineFails()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -64,6 +64,21 @@ namespace Domain.Tests
 
             // Assert
             mockNotificationService.Received().NotifyScrumMaster("Pipeline failed at step: BuildStep");
+        }
+
+        [Fact]
+        public void ScrumMasterAndProductOwnerShouldBeNotifiedWhenPipelineSucceeds()
+        {
+            // Arrange
+            INotificationService mockNotificationService = Substitute.For<INotificationService>();
+            Sprint releaseSprint = SprintFactory.CreateReleaseSprint("PipelineShouldSucceed", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
+
+            // Act
+            releaseSprint.Finish();
+
+            // Assert
+            mockNotificationService.Received().NotifyScrumMaster("[" + releaseSprint.Name + "] release succeeded");
+            mockNotificationService.Received().NotifyProductOwner("[" + releaseSprint.Name + "] release succeeded");
         }
     }
 }

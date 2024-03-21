@@ -15,7 +15,7 @@ namespace Domain.Models.PipelineModels
         {
             _steps.Add(step);
         }
-
+        
         public void Execute(Sprint sprint)
         {
             foreach (var step in _steps)
@@ -27,13 +27,13 @@ namespace Domain.Models.PipelineModels
                 catch (Exception ex)
                 {
                     sprint._notificationService.NotifyScrumMaster("Pipeline failed at step: " + step.GetType().Name);
-                    break;
+                    return;
                 } 
-                finally
-                {
-                    // check if succeeded and notify scrum master & product owner
-                }
             }
+
+            var successMsg = "[" + sprint.Name + "] release succeeded";
+            sprint._notificationService.NotifyScrumMaster(successMsg);
+            sprint._notificationService.NotifyProductOwner(successMsg);
         }
     }
 }
