@@ -14,7 +14,9 @@ namespace Domain.Models.SprintModels.FinishStrategy
             // zet release in gang als resultaten goed genoeg zijn
             if (!areResultsGoodEnough(sprint))
             {
-                // notify product owner & scrum master via mail & slack dat release geannuleerd is door resultaten
+                var failMsg = "[" + sprint.Name + "] release failed: results are not good enough";
+                sprint._notificationService.NotifyScrumMaster(failMsg);
+                sprint._notificationService.NotifyProductOwner(failMsg);
                 return;
             }
         }

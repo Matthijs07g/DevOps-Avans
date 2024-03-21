@@ -1,4 +1,5 @@
-﻿using Domain.Models.SprintModels;
+﻿using Domain.Models.Notification;
+using Domain.Models.SprintModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace Services
 {
     public static class SprintFactory
     {
-        public static Sprint CreateReleaseSprint(string name, DateTime startDate, DateTime endDate)
+        public static Sprint CreateReleaseSprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
-            return new ReleaseSprint(name, startDate, endDate);
+            return new ReleaseSprint(name, startDate, endDate, notificationService);
         }
 
-        public static Sprint CreateReviewSprint(string name, DateTime startDate, DateTime endDate)
+        public static Sprint CreateReviewSprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
-            return new ReviewSprint(name, startDate, endDate);
+            return new ReviewSprint(name, startDate, endDate, notificationService);
         }
     }
 }

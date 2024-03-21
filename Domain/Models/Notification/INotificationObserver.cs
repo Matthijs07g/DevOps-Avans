@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.BacklogModels.BacklogStates
+namespace Domain.Models.Notification
 {
-    public class ReadyForTestingState : IBacklogState
+    public interface INotificationObserver
     {
+        void Update(string message);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Account;
 using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.SprintModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace Domain.Models.BacklogModels
         private Developer? _developer;
         public Developer? Developer { get => _developer; set => _developer = value; }
 
+        private Sprint? _sprint;
+        public Sprint? Sprint { get => _sprint; set => _sprint = value; }
+
         private List<BacklogItem>? _activities;
         public List<BacklogItem>? Activities { get => _activities; set => _activities = value; }
 
@@ -30,13 +34,20 @@ namespace Domain.Models.BacklogModels
 
         private void setState(IBacklogState state)
         {
+            if (_sprint == null) throw new InvalidOperationException("Backlog item is not in a sprint.");
+
             if (_currentState is ReadyForTestingState || _currentState is TestingState) {
 
                 if (state is DoingState) throw new InvalidOperationException("Cannot change state from " + _currentState.GetType().Name + " to " + state.GetType().Name);
                 if (state is TodoState)
                 {
-                    // notify scrum master so he can ask the developer why he put an unfinished task at ready for testing
+                    _sprint._notificationService.NotifyScrumMaster("[" + _title + "] status update: back to todo");
                 }
+            }
+
+            if (state is ReadyForTestingState)
+            {
+                _sprint._notificationService.NotifyTesters("[" + _title + "] status update: ready for testing");
             }
 
             if (state is DoneState && !canBeDone()) return;

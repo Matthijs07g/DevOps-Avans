@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models.Account;
 using Domain.Models.BacklogModels;
+using Domain.Models.Notification;
 using Domain.Models.SprintModels.FinishStrategy;
 using Domain.Models.SprintModels.SprintStates;
 
@@ -27,10 +28,12 @@ namespace Domain.Models.SprintModels
         private List<AbstractUser> _team;
         public List<AbstractUser> Team { get => _team; set => _team = value; }
 
+        internal INotificationService _notificationService;
+
         protected ISprintState _currentState;
         protected IFinishStrategy _finishStrategy;
 
-        public Sprint(string name, DateTime startDate, DateTime endDate)
+        public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
             _backlog = new List<BacklogItem>();
             _name = name;
@@ -38,6 +41,7 @@ namespace Domain.Models.SprintModels
             _endDate = endDate;
             _team = new List<AbstractUser>();
             _currentState = new NotStartedState();
+            _notificationService = notificationService;
         }
 
         public void Start()
@@ -53,6 +57,17 @@ namespace Domain.Models.SprintModels
         public void AddBacklogItem(BacklogItem value)
         {
             _currentState.addBacklogItem(this, value);
+        }
+
+        public void AddTeamUser(AbstractUser user)
+        {
+            if (_team.Contains(user))
+            {
+                throw new InvalidOperationException("User already in team");
+            }
+
+            _team.Add(user);
+            _notificationService.Attach(user);
         }
     }
 }
