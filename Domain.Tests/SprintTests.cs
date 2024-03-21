@@ -1,10 +1,4 @@
-﻿using Domain.Models.Account;
-using Domain.Models.BacklogModels;
-using Domain.Models.Notification;
-using Domain.Models.SprintModels;
-using NSubstitute;
-using Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -40,22 +34,16 @@ namespace Domain.Tests
 
 
         [Fact]
-        public void ReleaseShouldBeCancelledIfResultsAreNotGoodEnough()
+        public void ReleaseShouldBeCancelledAndNotifiedIfResultsAreNotGoodEnough()
         {
             // Arrange
-            ScrumMaster scrumMaster = new ScrumMaster("Scum Master");
-            ProductOwner productOwner = new ProductOwner("Product Owner");
-
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
             Sprint releaseSprint = SprintFactory.CreateReleaseSprint("Release Sprint", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
-            releaseSprint.AddTeamUser(scrumMaster);
-            releaseSprint.AddTeamUser(productOwner);
 
             BacklogItem backlogItem = new BacklogItem("[US-342] - As a user I want to be able to login");
             releaseSprint.AddBacklogItem(backlogItem);
 
             // Act
-            releaseSprint.Start();
             releaseSprint.Finish();
 
             // Assert
