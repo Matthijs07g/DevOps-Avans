@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.BacklogModels.BacklogStates;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -49,6 +50,20 @@ namespace Domain.Tests
             // Assert
             mockNotificationService.Received().NotifyScrumMaster("[" + releaseSprint.Name + "] release failed: results are not good enough");
             mockNotificationService.Received().NotifyProductOwner("[" + releaseSprint.Name + "] release failed: results are not good enough");
+        }
+
+        [Fact]
+        public void ScrumMasterShouldBeNotifiedWhenDevelopmentPipelineFails()
+        {
+            // Arrange
+            INotificationService mockNotificationService = Substitute.For<INotificationService>();
+            Sprint releaseSprint = SprintFactory.CreateReleaseSprint("PipelineShouldFail", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
+
+            // Act
+            releaseSprint.Finish();
+
+            // Assert
+            mockNotificationService.Received().NotifyScrumMaster("Pipeline failed at step: BuildStep");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Domain.Models.SprintModels.SprintStates
 
         public void addBacklogItem(Sprint sprint, BacklogItem value)
         {
-            throw new InvalidOperationException("Cannot add backlog item to sprint in progress");
+            throw new InvalidOperationException("Cannot add backlog item to sprint that is finished");
         }
     }
 }

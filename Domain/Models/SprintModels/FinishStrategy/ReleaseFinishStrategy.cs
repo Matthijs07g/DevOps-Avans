@@ -1,4 +1,5 @@
 ﻿using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.PipelineModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Domain.Models.SprintModels.FinishStrategy
 {
     public class ReleaseFinishStrategy : IFinishStrategy
     {
+        private readonly Pipeline _pipeline = new DevelopmentPipeline();
+
         public void Finish(Sprint sprint)
         {
             // zet release in gang als resultaten goed genoeg zijn
@@ -19,6 +22,8 @@ namespace Domain.Models.SprintModels.FinishStrategy
                 sprint._notificationService.NotifyProductOwner(failMsg);
                 return;
             }
+
+            _pipeline.Execute(sprint);
         }
 
         private bool areResultsGoodEnough(Sprint sprint)
