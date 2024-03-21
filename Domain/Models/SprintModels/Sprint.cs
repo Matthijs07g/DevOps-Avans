@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain.Models.Account;
 using Domain.Models.BacklogModels;
 using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.ExportModels;
 using Domain.Models.ForumModels;
 using Domain.Models.Notification;
 using Domain.Models.SprintModels.FinishStrategy;
@@ -86,6 +87,36 @@ namespace Domain.Models.SprintModels
             _forum.Add(forumThread);
 
             return forumThread;
+        }
+
+        public void GenerateReport(ExportOption exportOption)
+        {
+            List<string> headerLines = new List<string>();
+            headerLines.Add("Sprint Report");
+            headerLines.Add($"Sprint Name: {_name}");
+
+            List<string> footerLines = new List<string>();
+            footerLines.Add($"Sprint start date: {_startDate.ToString()}");
+            footerLines.Add($"Sprint end date: {_endDate.ToString()}");
+
+            if (exportOption == ExportOption.PDF)
+            {
+                PdfReport pdfReport = new PdfReport("This is a pdf report");
+                pdfReport.AddHeader(headerLines);
+                pdfReport.AddFooter(footerLines);
+                pdfReport.Export();
+            }
+            else if (exportOption == ExportOption.PNG)
+            {
+                PngReport pngReport = new PngReport("This is a png report");
+                pngReport.AddHeader(headerLines);
+                pngReport.AddFooter(footerLines);
+                pngReport.Export();
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid export option");
+            }
         }
     }
 }
