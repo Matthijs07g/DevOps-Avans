@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Account;
 using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.ForumModels;
 using Domain.Models.SprintModels;
 using System;
 using System.Collections.Generic;

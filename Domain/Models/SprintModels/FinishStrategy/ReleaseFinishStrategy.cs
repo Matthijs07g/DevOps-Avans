@@ -14,7 +14,6 @@ namespace Domain.Models.SprintModels.FinishStrategy
 
         public void Finish(Sprint sprint)
         {
-            // zet release in gang als resultaten goed genoeg zijn
             if (!areResultsGoodEnough(sprint))
             {
                 var failMsg = "[" + sprint.Name + "] release failed: results are not good enough";

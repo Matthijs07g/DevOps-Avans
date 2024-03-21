@@ -13,13 +13,12 @@ namespace Domain.Models
         private ProductOwner _productOwner;
         public ProductOwner ProductOwner { get => _productOwner; set => _productOwner = value; }
 
-        private Sprint _sprint;
-        public Sprint Sprint { get => _sprint; set => _sprint = value; }
+        private List<Sprint> _sprints = new List<Sprint>();
+        public List<Sprint> Sprints { get => _sprints; }
 
-        public Project(ProductOwner productOwner, Sprint sprint)
+        public Project(ProductOwner productOwner)
         {
             _productOwner = productOwner;
-            _sprint = sprint;
         }
     }
 }

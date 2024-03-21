@@ -10,7 +10,7 @@ namespace Domain.Models.SprintModels.FinishStrategy
     {
         public void Finish(Sprint sprint)
         {
-            // doe review
+            if (sprint.Conclusion == null) throw new InvalidOperationException("Sprint must have a conclusion to be finished");
         }
     }
 }

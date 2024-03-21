@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models.Account;
 using Domain.Models.BacklogModels;
+using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.ForumModels;
 using Domain.Models.Notification;
 using Domain.Models.SprintModels.FinishStrategy;
 using Domain.Models.SprintModels.SprintStates;
@@ -27,6 +29,12 @@ namespace Domain.Models.SprintModels
 
         private List<AbstractUser> _team;
         public List<AbstractUser> Team { get => _team; set => _team = value; }
+
+        private List<ForumThread> _forum = new List<ForumThread>();
+        public List<ForumThread> Forum { get => _forum; set => _forum = value; }
+
+        private string? _conclusion;
+        public string? Conclusion { get => _conclusion; set => _conclusion = value; }
 
         internal INotificationService _notificationService;
 
@@ -68,6 +76,16 @@ namespace Domain.Models.SprintModels
 
             _team.Add(user);
             _notificationService.Attach(user);
+        }
+
+        public ForumThread? StartForumThread(BacklogItem backlogItem, ForumPost startPost)
+        {
+            if (backlogItem.CurrentState is DoneState) return null;
+            
+            var forumThread = new ForumThread(backlogItem, _notificationService, startPost);
+            _forum.Add(forumThread);
+
+            return forumThread;
         }
     }
 }
