@@ -26,6 +26,7 @@ namespace Domain.Models.PipelineModels
                 }
                 catch (Exception ex)
                 {
+                    sprint._notificationService.NotifyProductOwner("Pipeline failed at step: " + step.GetType().Name);
                     sprint._notificationService.NotifyScrumMaster("Pipeline failed at step: " + step.GetType().Name);
                     return;
                 } 

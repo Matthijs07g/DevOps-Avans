@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.ExportModels
+namespace Domain.Tests
 {
-    public enum ExportOption
+    public class ForumTests
     {
-        PDF,
-        PNG,
     }
 }

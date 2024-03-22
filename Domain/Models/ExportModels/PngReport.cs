@@ -12,12 +12,14 @@ namespace Domain.Models.ExportModels
         {
         }
 
-        public override void Export()
+        public override ExportFormat Export()
         {
             Console.WriteLine("PNG EXPORT:");
             if (_header != null) Console.WriteLine(_header.ToString());
             Console.WriteLine(_report.ToString());
             if (_header != null) Console.WriteLine(_footer.ToString());
+
+            return ExportFormat.PNG;
         }
     }
 }

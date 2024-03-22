@@ -40,6 +40,6 @@ namespace Domain.Models.ExportModels
             _footer.AppendLine(_divideLine);
         }
 
-        public abstract void Export();
+        public abstract ExportFormat Export();
     }
 }

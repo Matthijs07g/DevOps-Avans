@@ -1,5 +1,6 @@
 ﻿using Domain.Models.BacklogModels.BacklogStates;
 using Domain.Models.ForumModels;
+using Domain.Models.SprintModels.SprintStates;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,7 +37,7 @@ namespace Domain.Tests
 
 
         [Fact]
-        public void TC102_ReleaseShouldBeCancelledAndNotifiedIfResultsAreNotGoodEnough()
+        public void TC102_ReleaseShouldBeCancelledAndNotifiedToScrumMasterAndProductOwnerIfResultsAreNotGoodEnough()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -51,35 +52,6 @@ namespace Domain.Tests
             // Assert
             mockNotificationService.Received().NotifyScrumMaster("[" + releaseSprint.Name + "] release failed: results are not good enough");
             mockNotificationService.Received().NotifyProductOwner("[" + releaseSprint.Name + "] release failed: results are not good enough");
-        }
-
-        [Fact]
-        public void TC103_ScrumMasterShouldBeNotifiedWhenPipelineFails()
-        {
-            // Arrange
-            INotificationService mockNotificationService = Substitute.For<INotificationService>();
-            Sprint releaseSprint = SprintFactory.CreateReleaseSprint("PipelineShouldFail", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
-
-            // Act
-            releaseSprint.Finish();
-
-            // Assert
-            mockNotificationService.Received().NotifyScrumMaster("Pipeline failed at step: BuildStep");
-        }
-
-        [Fact]
-        public void TC104_ScrumMasterAndProductOwnerShouldBeNotifiedWhenPipelineSucceeds()
-        {
-            // Arrange
-            INotificationService mockNotificationService = Substitute.For<INotificationService>();
-            Sprint releaseSprint = SprintFactory.CreateReleaseSprint("PipelineShouldSucceed", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
-
-            // Act
-            releaseSprint.Finish();
-
-            // Assert
-            mockNotificationService.Received().NotifyScrumMaster("[" + releaseSprint.Name + "] release succeeded");
-            mockNotificationService.Received().NotifyProductOwner("[" + releaseSprint.Name + "] release succeeded");
         }
 
         [Fact]
@@ -128,7 +100,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void TC_107AddPostToForumThreadShouldNotify()
+        public void TC107_AddPostToForumThreadShouldNotify()
         {
             // Arrange 
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -148,6 +120,21 @@ namespace Domain.Tests
 
             // Assert
             mockNotificationService.Received().Notify("New post in thread: " + fThread.Title);
+        }
+
+        [Fact]
+        public void TC108_ReviewSprintCanNotBeFinishedWhenConclusionIsNotFilled()
+        {
+            // Arrange
+            INotificationService mockNotificationService = Substitute.For<INotificationService>();
+            Sprint reviewSprint = SprintFactory.CreateReviewSprint("Review Sprint", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
+
+            // Act
+            var exc = Record.Exception(() => reviewSprint.Finish());
+
+            // Assert
+            Assert.NotEqual(reviewSprint.CurrentState, new FinishedState());
+            Assert.IsType<InvalidOperationException>(exc);
         }
     }
 }

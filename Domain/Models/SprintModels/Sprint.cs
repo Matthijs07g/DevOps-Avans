@@ -39,7 +39,9 @@ namespace Domain.Models.SprintModels
 
         internal INotificationService _notificationService;
 
-        protected ISprintState _currentState;
+        internal ISprintState _currentState;
+        public ISprintState CurrentState { get => _currentState; }
+        
         protected IFinishStrategy _finishStrategy;
 
         public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
@@ -88,35 +90,52 @@ namespace Domain.Models.SprintModels
 
             return forumThread;
         }
-
-        public void GenerateReport(ExportOption exportOption)
+        
+        public Report GenerateReport(ExportFormat exportOption, List<string>? headerLines, List<string>? footerLines)
         {
-            List<string> headerLines = new List<string>();
-            headerLines.Add("Sprint Report");
-            headerLines.Add($"Sprint Name: {_name}");
+            // headerLines.Add("Sprint Report");
+            // headerLines.Add($"Sprint Name: {_name}");
+            
+            // footerLines.Add($"Sprint start date: {_startDate.ToString()}");
+            // footerLines.Add($"Sprint end date: {_endDate.ToString()}");
 
-            List<string> footerLines = new List<string>();
-            footerLines.Add($"Sprint start date: {_startDate.ToString()}");
-            footerLines.Add($"Sprint end date: {_endDate.ToString()}");
-
-            if (exportOption == ExportOption.PDF)
+            if (exportOption == ExportFormat.PDF)
             {
                 PdfReport pdfReport = new PdfReport("This is a pdf report");
-                pdfReport.AddHeader(headerLines);
-                pdfReport.AddFooter(footerLines);
-                pdfReport.Export();
+                if (headerLines != null)
+                {
+                    pdfReport.AddHeader(headerLines);
+                }
+                if (footerLines != null)
+                {
+                    pdfReport.AddFooter(footerLines);
+                }
+
+                return pdfReport;
             }
-            else if (exportOption == ExportOption.PNG)
+            else if (exportOption == ExportFormat.PNG)
             {
                 PngReport pngReport = new PngReport("This is a png report");
-                pngReport.AddHeader(headerLines);
-                pngReport.AddFooter(footerLines);
-                pngReport.Export();
+                if (headerLines != null)
+                {
+                    pngReport.AddHeader(headerLines);
+                }
+                if (footerLines != null)
+                {
+                    pngReport.AddFooter(footerLines);
+                }
+
+                return pngReport;
             }
             else
             {
                 throw new InvalidOperationException("Invalid export option");
             }
+        }
+
+        public void AddConclusion(string conclusion)
+        {
+            _conclusion = conclusion;
         }
     }
 }

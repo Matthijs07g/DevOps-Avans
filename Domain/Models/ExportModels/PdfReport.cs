@@ -11,13 +11,15 @@ namespace Domain.Models.ExportModels
         public PdfReport(string report) : base(report)
         {
         }
-
-        public override void Export()
+        
+        public override ExportFormat Export()
         {
             Console.WriteLine("PDF EXPORT:");
             if (_header != null) Console.WriteLine(_header.ToString());
             Console.WriteLine(_report.ToString());
             if (_header != null) Console.WriteLine(_footer.ToString());
+
+            return ExportFormat.PDF;
         }
     }
 }
