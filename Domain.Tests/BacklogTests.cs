@@ -43,5 +43,26 @@ namespace Domain.Tests
             // Assert
             mockNotificationService.Received().NotifyScrumMaster("[" + backlogItem.Title + "] status update: back to todo");
         }
+
+        [Fact]
+        public void TC203_BacklogItemCanOnlyBeDoneWhenAllActivitiesAreDone()
+        {
+            {
+                // Arrange
+                INotificationService mockNotificationService = Substitute.For<INotificationService>();
+                Sprint releaseSprint = SprintFactory.CreateReleaseSprint("Release Sprint", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
+
+                BacklogItem backlogItem = new BacklogItem("[US-342] - As a user I want to be able to login");
+                BacklogItem backlogActivity = new BacklogItem("[US-342-1 - As a user I want to be able to enter my username");
+                backlogItem.AddActivity(backlogActivity);
+                releaseSprint.AddBacklogItem(backlogItem);
+
+                // Act
+                Exception exc = Record.Exception(() => backlogItem.CurrentState = new DoneState());
+
+                // Assert
+                Assert.IsType<InvalidOperationException>(exc);
+            }
+        }
     }
 }

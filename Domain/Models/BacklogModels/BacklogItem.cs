@@ -33,6 +33,16 @@ namespace Domain.Models.BacklogModels
             _title = title;
         }
 
+        public void AddActivity(BacklogItem activity)
+        {
+            if (_activities == null)
+            {
+                _activities = new List<BacklogItem>();
+            }
+
+            _activities.Add(activity);
+        }
+
         private void setState(IBacklogState state)
         {
             if (_sprint == null) throw new InvalidOperationException("Backlog item is not in a sprint.");
@@ -51,14 +61,14 @@ namespace Domain.Models.BacklogModels
                 _sprint._notificationService.NotifyTesters("[" + _title + "] status update: ready for testing");
             }
 
-            if (state is DoneState && !canBeDone()) return;
-            
+            if (state is DoneState && !canBeDone()) throw new InvalidOperationException("Cannot change state to " + state.GetType().Name + ": not all activities are done");
+
             _currentState = state;
         }
 
         private bool canBeDone()
         {
-            return _activities == null ? true : _activities.Exists(activity => activity.CurrentState is not DoneState);
+            return _activities == null ? true : !_activities.Exists(activity => activity.CurrentState is not DoneState);
         }
     }
 }

@@ -1,9 +1,16 @@
-﻿using Domain.Models.ExportModels;
+﻿using Domain.Models.BacklogModels.BacklogStates;
+using Domain.Models.BacklogModels;
+using Domain.Models.ExportModels;
 using Domain.Models.Notification;
 using Domain.Models.SprintModels;
 using Services;
 
-INotificationService notificationService = new NotificationService();
-Sprint releaseSprint = SprintFactory.CreateReleaseSprint("Export", DateTime.Now, DateTime.Now.AddDays(14), notificationService);
+INotificationService mockNotificationService = new NotificationService();
+Sprint releaseSprint = SprintFactory.CreateReleaseSprint("Release Sprint", DateTime.Now, DateTime.Now.AddDays(14), mockNotificationService);
 
-releaseSprint.GenerateReport(ExportOption.PNG);
+BacklogItem backlogItem = new BacklogItem("[US-342] - As a user I want to be able to login");
+BacklogItem backlogActivity = new BacklogItem("[US-342-1 - As a user I want to be able to enter my username");
+backlogItem.AddActivity(backlogActivity);
+releaseSprint.AddBacklogItem(backlogItem);
+
+backlogItem.CurrentState = new DoneState();
