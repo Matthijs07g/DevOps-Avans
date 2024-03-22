@@ -10,7 +10,7 @@ namespace Domain.Tests
     public class BacklogTests
     {
         [Fact]
-        public void TestersShouldBeNotifiedWhenStateOfBacklogItemIsSetToReadyForTesting()
+        public void TC201_TestersShouldBeNotifiedWhenStateOfBacklogItemIsSetToReadyForTesting()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -27,7 +27,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ScrumMasterShouldBeNotifiedWhenStateOfBacklogItemIsSetBackToTodoFromTesting()
+        public void TC202_ScrumMasterShouldBeNotifiedWhenStateOfBacklogItemIsSetBackToTodoFromTesting()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();

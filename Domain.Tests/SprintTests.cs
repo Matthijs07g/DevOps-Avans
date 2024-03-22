@@ -12,7 +12,7 @@ namespace Domain.Tests
     public class SprintTests
     {
         [Fact]
-        public void SprintsShouldNotBeEditableAfterStart()
+        public void TC101_SprintsShouldNotBeEditableAfterStart()
         {
             // Arrange
             INotificationService notificationService = new NotificationService();
@@ -36,7 +36,7 @@ namespace Domain.Tests
 
 
         [Fact]
-        public void ReleaseShouldBeCancelledAndNotifiedIfResultsAreNotGoodEnough()
+        public void TC102_ReleaseShouldBeCancelledAndNotifiedIfResultsAreNotGoodEnough()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -54,7 +54,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ScrumMasterShouldBeNotifiedWhenPipelineFails()
+        public void TC103_ScrumMasterShouldBeNotifiedWhenPipelineFails()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -68,7 +68,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void ScrumMasterAndProductOwnerShouldBeNotifiedWhenPipelineSucceeds()
+        public void TC104_ScrumMasterAndProductOwnerShouldBeNotifiedWhenPipelineSucceeds()
         {
             // Arrange
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -83,7 +83,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void AddPostToForumThreadShouldNotBePossibleWhenStateIsDoneState()
+        public void TC105_AddPostToForumThreadShouldNotBePossibleWhenStateIsDoneState()
         {
             // Arrange 
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -107,7 +107,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void StartForumPostShouldNotBePossibleWhenStateIsDoneState()
+        public void TC106_StartForumPostShouldNotBePossibleWhenStateIsDoneState()
         {
             // Arrange 
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
@@ -128,7 +128,7 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void AddPostToForumThreadShouldNotify()
+        public void TC_107AddPostToForumThreadShouldNotify()
         {
             // Arrange 
             INotificationService mockNotificationService = Substitute.For<INotificationService>();
