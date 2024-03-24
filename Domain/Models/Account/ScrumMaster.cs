@@ -8,9 +8,6 @@ namespace Domain.Models.Account
 {
     public class ScrumMaster : AbstractUser
     {
-        public ScrumMaster(string name)
-        {
-            _name = name;
-        }
+        public ScrumMaster(string name) : base(name) { }
     }
 }

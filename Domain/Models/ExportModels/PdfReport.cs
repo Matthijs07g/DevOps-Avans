@@ -17,7 +17,7 @@ namespace Domain.Models.ExportModels
             Console.WriteLine("PDF EXPORT:");
             if (_header != null) Console.WriteLine(_header.ToString());
             Console.WriteLine(_report.ToString());
-            if (_header != null) Console.WriteLine(_footer.ToString());
+            if (_footer != null) Console.WriteLine(_footer.ToString());
 
             return ExportFormat.PDF;
         }

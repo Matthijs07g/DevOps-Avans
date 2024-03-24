@@ -8,9 +8,6 @@ namespace Domain.Models.Account
 {
     public class ProductOwner : AbstractUser
     {
-        public ProductOwner(string name)
-        {
-            _name = name;
-        }
+        public ProductOwner(string name) : base(name) { }
     }
 }

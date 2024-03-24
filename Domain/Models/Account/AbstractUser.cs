@@ -11,6 +11,11 @@ namespace Domain.Models.Account
     {
         protected string _name;
 
+        public AbstractUser(string name)
+        {
+            _name = name;
+        }
+
         public void Update(string message)
         {
             Console.WriteLine("User " + _name + " received message: " + message);
