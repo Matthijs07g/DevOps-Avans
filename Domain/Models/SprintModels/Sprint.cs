@@ -16,6 +16,7 @@ namespace Domain.Models.SprintModels
 {
     public abstract class Sprint
     {
+        // Test commit code for sonarcloud
         internal string _name;
         public string Name { get => _name; set => _currentState.setName(this, value); }
 
