@@ -27,7 +27,7 @@ namespace Domain.Models.SprintModels.SprintStates
         public void addBacklogItem(Sprint sprint, BacklogItem value)
         {
             value.Sprint = sprint;
-            sprint._backlog.Add(value);
+            sprint.Backlog.Add(value);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Domain.Models.ForumModels
 {
     public class ForumPost
     {
-        private AbstractUser _poster;
+        private readonly AbstractUser _poster;
         public AbstractUser Poster { get => _poster; }
 
-        private string _title;
+        private readonly string _title;
         public string Title { get => _title; }
 
-        private string _content;
+        private readonly string _content;
         public string Content { get => _content; }
 
         public ForumPost(AbstractUser poster, string title, string content)

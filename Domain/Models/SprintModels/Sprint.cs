@@ -25,33 +25,27 @@ namespace Domain.Models.SprintModels
         internal DateTime _endDate;
         public DateTime EndDate { get => _endDate; set => _currentState.setEndDate(this, value); }
 
-        internal List<BacklogItem> _backlog;
-        public List<BacklogItem> Backlog { get => _backlog; set => _backlog = value; }
+        public List<BacklogItem> Backlog { get; set; } = new List<BacklogItem>();
 
-        private List<AbstractUser> _team;
-        public List<AbstractUser> Team { get => _team; set => _team = value; }
+        public List<AbstractUser> Team { get; set; } = new List<AbstractUser>();
 
-        private List<ForumThread> _forum = new List<ForumThread>();
-        public List<ForumThread> Forum { get => _forum; set => _forum = value; }
+        private readonly List<ForumThread> _forum = new List<ForumThread>();
+        public List<ForumThread> Forum { get => _forum; }
 
-        private string? _conclusion;
-        public string? Conclusion { get => _conclusion; set => _conclusion = value; }
+        public string? Conclusion { get; set; }
 
         internal INotificationService _notificationService;
 
-        internal ISprintState _currentState;
+        internal ISprintState _currentState = new NotStartedState();
         public ISprintState CurrentState { get => _currentState; }
-        
+
         protected IFinishStrategy _finishStrategy;
 
-        public Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
+        protected Sprint(string name, DateTime startDate, DateTime endDate, INotificationService notificationService)
         {
-            _backlog = new List<BacklogItem>();
             _name = name;
             _startDate = startDate;
             _endDate = endDate;
-            _team = new List<AbstractUser>();
-            _currentState = new NotStartedState();
             _notificationService = notificationService;
         }
 
@@ -72,12 +66,12 @@ namespace Domain.Models.SprintModels
 
         public void AddTeamUser(AbstractUser user)
         {
-            if (_team.Contains(user))
+            if (Team.Contains(user))
             {
                 throw new InvalidOperationException("User already in team");
             }
 
-            _team.Add(user);
+            Team.Add(user);
             _notificationService.Attach(user);
         }
 
@@ -135,7 +129,7 @@ namespace Domain.Models.SprintModels
 
         public void AddConclusion(string conclusion)
         {
-            _conclusion = conclusion;
+            Conclusion = conclusion;
         }
     }
 }

@@ -11,14 +11,14 @@ namespace Domain.Models.ForumModels
 {
     public class ForumThread
     {
-        private string _title;
+        private readonly string _title;
         public string Title { get => _title; }
 
-        private List<ForumPost> _posts = new List<ForumPost>();
+        private readonly List<ForumPost> _posts = new List<ForumPost>();
         public List<ForumPost> Posts { get => _posts; }
 
-        private BacklogItem _backlogItem;
-        private INotificationService _notificationService;
+        private readonly BacklogItem _backlogItem;
+        private readonly INotificationService _notificationService;
         
         public ForumThread(BacklogItem backlogItem, INotificationService notificationService, ForumPost startPost)
         {

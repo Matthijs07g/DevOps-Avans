@@ -10,15 +10,14 @@ namespace Domain.Models
 {
     public class Project
     {
-        private ProductOwner _productOwner;
-        public ProductOwner ProductOwner { get => _productOwner; set => _productOwner = value; }
+        public ProductOwner ProductOwner { get; set;}
 
-        private List<Sprint> _sprints = new List<Sprint>();
+        private readonly List<Sprint> _sprints = new List<Sprint>();
         public List<Sprint> Sprints { get => _sprints; }
 
         public Project(ProductOwner productOwner)
         {
-            _productOwner = productOwner;
+            ProductOwner = productOwner;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Domain.Models.ExportModels
         protected StringBuilder? _header;
         protected StringBuilder? _footer;
 
-        public Report(string report)
+        protected Report(string report)
         {
             _report.AppendLine(report);
         }

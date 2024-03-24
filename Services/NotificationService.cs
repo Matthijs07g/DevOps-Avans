@@ -10,7 +10,7 @@ namespace Services
 {
     public class NotificationService : INotificationService
     {
-        private List<INotificationObserver> _observers = new List<INotificationObserver>();
+        private readonly List<INotificationObserver> _observers = new List<INotificationObserver>();
 
         public void Attach(INotificationObserver observer)
         {
@@ -34,34 +34,25 @@ namespace Services
 
         public void NotifyTesters(string message)
         {
-            foreach (var observer in _observers)
+            foreach (var observer in _observers.Where(o => o is Tester))
             {
-                if (observer is Tester)
-                {
-                    observer.Update(message);
-                }
+                observer.Update(message);
             }
         }
 
         public void NotifyScrumMaster(string message)
         {
-            foreach (var observer in _observers)
+            foreach (var observer in _observers.Where(o => o is ScrumMaster))
             {
-                if (observer is ScrumMaster)
-                {
-                    observer.Update(message);
-                }            
-            }
+                observer.Update(message);
+            }            
         }
 
         public void NotifyProductOwner(string message)
         {
-            foreach (var observer in _observers)
+            foreach (var observer in _observers.Where(o => o is ProductOwner))
             {
-                if (observer is ProductOwner)
-                {
-                    observer.Update(message);
-                }
+                observer.Update(message);
             }
         }
     }

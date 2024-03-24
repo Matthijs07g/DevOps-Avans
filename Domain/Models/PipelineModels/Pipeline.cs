@@ -9,7 +9,7 @@ namespace Domain.Models.PipelineModels
 {
     public class Pipeline
     {
-        private List<IPipelineStep> _steps = new List<IPipelineStep>();
+        private readonly List<IPipelineStep> _steps = new List<IPipelineStep>();
 
         public void AddStep(IPipelineStep step)
         {
